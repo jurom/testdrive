@@ -1,4 +1,4 @@
-<div class="view">
+<div id="<?php echo "comment_".$data->id; ?>" class="view">
 	<?php $user = $data->user ?>
 	<table style="border=0">
 		<tr>
@@ -6,7 +6,7 @@
 				<b><?php echo CHtml::link(CHtml::encode($user->username == Yii::app()->user->name ? 'YOU' : $user->username.' wrote'), array('user/view', 'id' => $user->id)); ?></b>
 				
 				<p>
-				<?php echo CHtml::encode($data->content) ?>
+				<?php echo nl2br(CHtml::encode($data->content)) ?>
 				</p>
 				<em>
 				<b><?php echo CHtml::encode($data->getAttributeLabel('created')); ?>:</b>
@@ -22,9 +22,13 @@
 			<td>
 				<?php if ((Yii::app()->user->id == $data->user_id) || (Yii::app()->user->name == 'admin')) 
 					{
+                                                $formattedContent = str_replace("\r\n",'\\n',$data->content);
 						echo CHtml::button('Delete', array(
 						'submit' => array('comment/delete', 'id' => $data->id),
 						'confirm' => 'Are you sure you want to delete this comment?',
+						));
+						echo CHtml::button('Edit', array(
+						'onclick' => 'displayEditCommentForm('.$data->id.',"'.$formattedContent.'")',
 						));
 					}
 				?>
