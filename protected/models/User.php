@@ -11,6 +11,9 @@
  */
 class User extends CActiveRecord
 {
+
+	public $password_repeat;
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -27,11 +30,12 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, email', 'required'),
-			array('username, password, email', 'length', 'max'=>128),
+			array('username, password, email, password_repeat', 'required'),
+			array('username, password, email, password_repeat', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, username, password, email', 'safe', 'on'=>'search'),
+			array('password_repeat', 'compare', 'compareAttribute' => 'password'),
 		);
 	}
 
@@ -44,6 +48,8 @@ class User extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'comments' => array(self::HAS_MANY, 'Comment', 'user_id'),
+			'threads' => array(self::HAS_MANY, 'Thread', 'user_id'),
+			'fcomments' => array(self::HAS_MANY, 'ForumComment', 'user_id'),
 		);
 	}
 

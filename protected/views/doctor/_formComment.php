@@ -18,3 +18,5 @@
 		<?php echo CHtml::submitButton($modelComment->isNewRecord? 'Create' : 'Save') ?>
 	</div>
 <?php $this->endWidget(); ?>
+
+</div>

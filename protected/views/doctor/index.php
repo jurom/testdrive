@@ -5,7 +5,7 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-	array('label'=>'New Doctor', 'url' => array('create')),
+	array('label'=>'New Doctor', 'url' => array('create', 'topic_id' => -1)),
 );
 
 ?>

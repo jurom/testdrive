@@ -12,13 +12,18 @@ $this->menu = array(
 	array('label' => 'Delete Doctor', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Are you sure you want to delete this doctor?')),
 );
 
+#$actionEdit = '?r=comment/update&amp;';
+$actionEdit = '/comment/update?';
+
+
 Yii::app()->clientScript->registerScript('edit', "
 var htmls = new Array();
 
 function displayEditCommentForm(id,content_value) {
     htmls[id] = document.getElementById(".'"comment_"+id'.").innerHTML;
     document.getElementById(".'"comment_"+id'.").innerHTML='".'\
-        <form id="comment-form-edit" action="/yiitest/testdrive/index.php?r=comment/update&amp;id='."'+id+'".'" method="post">\
+    <div class="form">\
+        <form id="comment-form-edit" action="/yiitest/testdrive/index.php'.$actionEdit.'id='."'+id+'".'" method="post">\
             <div class="row"><label for="Comment_content" class="required">Content</label>\
                 <textarea rows="5" cols="50" name="Comment[content]" id="Comment_content">'."'+content_value+'".'</textarea>\
             </div>\
@@ -26,7 +31,8 @@ function displayEditCommentForm(id,content_value) {
                 <input type="submit" name="yt0" value="Save" />\
                 <input type="button" onclick="hideEditCommentForm('."'+id+'".')" value="Cancel" />\
             </div>\
-        </form>'."';
+        </form>\
+    </div>'."';
 }
 
 function hideEditCommentForm(id) {
@@ -34,10 +40,9 @@ function hideEditCommentForm(id) {
 }
 ",CClientScript::POS_HEAD);
 
-
 ?>
 
-<h1>View Doctor #<?php echo $model->id; ?></h1>
+<h1>View Doctor <?php echo $model->name; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data' => $model,

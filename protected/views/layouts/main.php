@@ -29,13 +29,14 @@
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
+				array('label'=>'Home', 'url'=>array('/start')),
 				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
 				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Forum', 'url'=>array('/micropost/index')),
+				//array('label'=>'General Forum', 'url'=>array('/micropost/index')),
+				array('label'=>'Forum', 'url' => array('/topic/index')),
 				array('label'=>'Users', 'url'=>array('/user/index')),
-				array('label'=>'Doctors', 'url'=>array('/doctor/index')),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+				array('label'=>'Doctors', 'url'=>array('/doctors')),
+				array('label'=>'Login', 'url'=>array('/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
 		)); ?>

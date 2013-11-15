@@ -1,8 +1,8 @@
 <?php
 
-class CommentController extends Controller 
+class ForumCommentController extends Controller
 {
-	
+
 	public $layout = '//layouts/column2';
 	
 	public function filters()
@@ -29,54 +29,56 @@ class CommentController extends Controller
 		);
 	}
 	
-	public function actionCreate($doctor_id)
-	{ 
-		$model = new Comment;
+	public function actionCreate($thread_id)
+	{
+		$model = new ForumComment;
 		
-		if (isset($_POST['Comment']))
+		if (isset($_POST['ForumComment']))
 		{
-			$model->attributes = $_POST['Comment'];
+			$model->attributes = $_POST['ForumComment'];
+			$model->thread_id = $thread_id;
 			$model->user_id = Yii::app()->user->id;
-			$model->doctor_id = $doctor_id;
 			if ($model->save())
 			{
-				$this->redirect(array('doctor/view','id' => $doctor_id));
+				$this->redirect(array('thread/view','id' => $thread_id));
 			}
 		}
+		
+		$this->redirect(array('thread/view','id'=>$thread_id));
 	}
 	
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
 		
-		if (isset($_POST['Comment']))
+		if (isset($_POST['ForumComment']))
 		{
-			$model->attributes = $_POST['Comment'];
+			$model->attributes = $_POST['ForumComment'];
 			if ($model->save())
 			{
-				$this->redirect(array('doctor/view', 'id' => $model->doctor_id));
+				$this->redirect(array('thread/view','id' => $model->thread_id));
 			}
 		}
-		
 	}
 	
 	public function actionDelete($id)
 	{
 		$model = $this->loadModel($id);
-	
-		if ((Yii::app()->user->id == $model->user_id) || (Yii::app()->user->name = 'admin'))
+		
+		if ((Yii::app()->user->id == $model->user_id) || (Yii::app()->user->name == 'admin'))
 		{
-			$doctor_id = $model->doctor_id;
+			$thread_id = $model->thread_id;
 			$model->delete();
 			
 			if (!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('doctor/view', 'id' => $doctor_id));
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('thread/view', 'id' => $thread_id));
 		}
 	}
 	
 	public function loadModel($id)
 	{
-		$model = Comment::model()->findByPk($id);
+		$model = ForumComment::model()->findByPk($id);
+		
 		if ($model === null)
 			throw new CHttpException(404,'The requested page was not found.');
 		return $model;
@@ -90,5 +92,7 @@ class CommentController extends Controller
 			Yii::app()->end();
 		}
 	}
+
 }
+
 ?>
